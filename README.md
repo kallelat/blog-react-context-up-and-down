@@ -31,19 +31,41 @@ Context is an instance created by the React Context API and it contains the data
 
 ```typescript
 const initialValue = { counter: 0, incrementCounter: () => {} };
-const context = React.createContext(initialValue);
+export const CounterContext = createContext(initialValue);
 ```
-TBD: idea of provider and hooks
 
-TBD: add provider
+And by wrapping your components inside `Provider` component your components will get access to the value of the context:
+```react
+<CounterContext.Provider value={{ counter, increment }}>
+    {/* wrap your components here, can be the whole App or a smaller part of it. */}
+    {children}
+</CounterContext.Provider>
+```
+The whole Provider example is available [here](src/providers/counter.tsx).
 
-TBD: add hooks
+There are two ways of subscribing into Context and getting actual access to its contents. The first one is using Consumer component, like this:
+```react
+<CounterContext.Consumer>
+    {({ counter }) => {
+        return <p>Counter value is {counter} (from consumer)</p>;
+    }}
+</CounterContext.Consumer>
+```
 
-TBD: add callback
+Another, a bit more simpler method is using hooks:
+```typescript
+const { counter } = useContext(CounterContext);
+```
+
+Now, both work in a same way and both can be used - though naturally hooks only work with functional components.
+
+The most important point here is, that all the changes to context value cause rerender of your components using either `useContext` hook or `Consumer` component.
+
+We can also have access to `increment` method, which gives your components a way to update the value, check [hook example](src/components/hook-increment.tsx) or [Consumer example](src/components/consumer-increment.tsx) for reference.
 
 ## Summary
 
-TBD
+Context API provides a neat and simple way to inject and access data through your component tree. It removes the need to pass data through all the intermediate components and lets you just use the data where ever you need to.
 
 **Feel free to browse the code, if you have any questions or improvement ideas let me know!**
 
