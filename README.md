@@ -2,9 +2,9 @@
 
 In this article I'm demonstrating how to use React Context API in both directions:
 
-1) demonstrating React Context <Provider /> component to inject data deep into the component tree without passing them through every single node.
+1. demonstrating React Context <Provider /> component to inject data deep into the component tree without passing them through every single node.
 
-2) updating Context contents from child components
+2. updating Context contents from child components
 
 Technologies used:
 
@@ -29,31 +29,35 @@ React Context API introduces two concepts: Context, Provider and Consumer.
 
 Context is an instance created by the React Context API and it contains the data.
 
-```typescript
+```ts
 const initialValue = { counter: 0, incrementCounter: () => {} };
 export const CounterContext = createContext(initialValue);
 ```
 
 And by wrapping your components inside `Provider` component your components will get access to the value of the context:
-```react
+
+```tsx
 <CounterContext.Provider value={{ counter, increment }}>
-    {/* wrap your components here, can be the whole App or a smaller part of it. */}
-    {children}
+  {/* wrap your components here, can be the whole App or a smaller part of it. */}
+  {children}
 </CounterContext.Provider>
 ```
+
 The whole Provider example is available [here](src/providers/counter.tsx).
 
 There are two ways of subscribing into Context and getting actual access to its contents. The first one is using Consumer component, like this:
-```react
+
+```tsx
 <CounterContext.Consumer>
-    {({ counter }) => {
-        return <p>Counter value is {counter} (from consumer)</p>;
-    }}
+  {({ counter }) => {
+    return <p>Counter value is {counter} (from consumer)</p>;
+  }}
 </CounterContext.Consumer>
 ```
 
 Another, a bit more simpler method is using hooks:
-```typescript
+
+```ts
 const { counter } = useContext(CounterContext);
 ```
 
